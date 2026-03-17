@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Luma Studio | Creative Landing Page</title>
+    <title>Luma Studio | Interactive Project Quiz</title>
     <meta
       name="description"
-      content="Luma Studio builds modern digital experiences with thoughtful strategy, design, and development."
+      content="An interactive web experience demonstrating dynamic DOM manipulation, event handling, and a dark mode toggle."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,58 +22,86 @@
         <a class="logo" href="#top">Luma<span>Studio</span></a>
         <nav aria-label="Primary navigation">
           <ul class="nav-links">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#work">Work</a></li>
+            <li><a href="#quiz">Quiz</a></li>
+            <li><a href="#gallery">Gallery</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </nav>
+        <button class="toggle-theme" id="theme-toggle" type="button" aria-pressed="false">
+          Toggle Dark Mode
+        </button>
       </div>
     </header>
 
     <main>
-      <section class="hero" id="work">
-        <div class="hero-overlay"></div>
+      <section class="hero" id="hero">
         <div class="container hero-content">
-          <p class="eyebrow">Design that feels effortless</p>
-          <h1>Build a brand experience people remember.</h1>
+          <p class="eyebrow">Interactive Front-End Demo</p>
+          <h1>Build your perfect website project plan.</h1>
           <p>
-            We blend strategy, visual storytelling, and modern engineering to
-            launch websites that look sharp and perform beautifully.
+            Answer a short quiz to get a recommended starting package. Hover over the gallery cards to preview
+            concepts, then click to feature your favorite.
           </p>
-          <a class="cta-button" href="#services">Start Your Project</a>
+          <a class="cta-button" href="#quiz">Take the Quiz</a>
         </div>
       </section>
 
-      <section class="services container" id="services">
-        <h2>What we do</h2>
-        <p class="section-copy">
-          A focused suite of services to help your business stand out online.
-        </p>
+      <section class="services container" id="quiz" aria-labelledby="quiz-heading">
+        <h2 id="quiz-heading">Project Match Quiz</h2>
+        <p class="section-copy">Choose one option for each question and submit to see a dynamic recommendation.</p>
 
-        <div class="card-grid">
-          <article class="card">
-            <h3>Brand Strategy</h3>
-            <p>
-              Clarify your message and voice with audience-first positioning that
-              drives consistent growth.
-            </p>
-          </article>
+        <form id="quiz-form" class="quiz-form">
+          <fieldset>
+            <legend>1) What's your primary project goal?</legend>
+            <label><input type="radio" name="goal" value="lead-generation" required /> Generate leads</label>
+            <label><input type="radio" name="goal" value="brand-awareness" /> Grow brand awareness</label>
+            <label><input type="radio" name="goal" value="online-sales" /> Increase online sales</label>
+          </fieldset>
 
-          <article class="card">
-            <h3>UI/UX Design</h3>
-            <p>
-              Beautiful, accessible interfaces designed with clear hierarchy,
-              strong typography, and intuitive flows.
-            </p>
-          </article>
+          <fieldset>
+            <legend>2) How quickly do you need to launch?</legend>
+            <label><input type="radio" name="timeline" value="fast" required /> As soon as possible</label>
+            <label><input type="radio" name="timeline" value="standard" /> Within 1-2 months</label>
+            <label><input type="radio" name="timeline" value="flexible" /> I have a flexible timeline</label>
+          </fieldset>
 
-          <article class="card">
-            <h3>Web Development</h3>
-            <p>
-              Fast, responsive front-end systems engineered with best practices
-              for maintainability and performance.
-            </p>
-          </article>
+          <fieldset>
+            <legend>3) Which style matches your vision?</legend>
+            <label><input type="radio" name="style" value="minimal" required /> Clean & minimal</label>
+            <label><input type="radio" name="style" value="bold" /> Bold & expressive</label>
+            <label><input type="radio" name="style" value="editorial" /> Elegant editorial</label>
+          </fieldset>
+
+          <button type="submit" class="cta-button">Get Recommendation</button>
+        </form>
+
+        <article class="result" id="quiz-result" aria-live="polite">
+          <h3>Your recommendation appears here.</h3>
+          <p>Submit your answers to generate a custom package suggestion.</p>
+        </article>
+      </section>
+
+      <section class="container gallery-section" id="gallery" aria-labelledby="gallery-heading">
+        <h2 id="gallery-heading">Concept Gallery</h2>
+        <p class="section-copy">Hover to explore each concept and click a card to make it the featured style.</p>
+
+        <p class="selected-note" id="selected-note">Featured concept: Aurora Commerce</p>
+
+        <div class="gallery-grid" id="gallery-grid">
+          <button class="gallery-card is-selected" type="button" data-title="Aurora Commerce" data-desc="A conversion-focused storefront with strong CTAs and product storytelling.">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80" alt="E-commerce analytics dashboard" />
+            <span>Aurora Commerce</span>
+          </button>
+
+          <button class="gallery-card" type="button" data-title="Nimbus Portfolio" data-desc="A visual-first portfolio experience designed to spotlight brand work and case studies.">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80" alt="Laptop displaying code editor" />
+            <span>Nimbus Portfolio</span>
+          </button>
+
+          <button class="gallery-card" type="button" data-title="Pulse Launch" data-desc="A campaign microsite optimized for signups, announcements, and countdowns.">
+            <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=900&q=80" alt="Team collaborating around a design table" />
+            <span>Pulse Launch</span>
+          </button>
         </div>
       </section>
     </main>
@@ -84,5 +112,7 @@
         <p>&copy; 2026 Luma Studio. All rights reserved.</p>
       </div>
     </footer>
+
+    <script src="script.js"></script>
   </body>
 </html>
