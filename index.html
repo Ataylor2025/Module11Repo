@@ -3,113 +3,65 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Luma Studio | Interactive Project Quiz</title>
+    <title>PokeLive Dashboard | Fetch API Demo</title>
     <meta
       name="description"
-      content="An interactive web experience demonstrating dynamic DOM manipulation, event handling, and a dark mode toggle."
+      content="A responsive web app that uses the Fetch API to retrieve and display live Pokemon data from PokeAPI with optional local caching."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="site-header" id="top">
-      <div class="container nav-wrapper">
-        <a class="logo" href="#top">Luma<span>Studio</span></a>
-        <nav aria-label="Primary navigation">
-          <ul class="nav-links">
-            <li><a href="#quiz">Quiz</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </nav>
-        <button class="toggle-theme" id="theme-toggle" type="button" aria-pressed="false">
-          Toggle Dark Mode
-        </button>
+    <header class="site-header">
+      <div class="container">
+        <p class="eyebrow">Fetch API + Dynamic DOM</p>
+        <h1>PokeLive Dashboard</h1>
+        <p class="intro">
+          Explore live data from <strong>PokeAPI</strong>. Search by Pokémon name or load a random live set.
+        </p>
       </div>
     </header>
 
-    <main>
-      <section class="hero" id="hero">
-        <div class="container hero-content">
-          <p class="eyebrow">Interactive Front-End Demo</p>
-          <h1>Build your perfect website project plan.</h1>
-          <p>
-            Answer a short quiz to get a recommended starting package. Hover over the gallery cards to preview
-            concepts, then click to feature your favorite.
-          </p>
-          <a class="cta-button" href="#quiz">Take the Quiz</a>
-        </div>
-      </section>
+    <main class="container">
+      <section class="controls" aria-labelledby="controls-heading">
+        <h2 id="controls-heading">Find Pokémon</h2>
 
-      <section class="services container" id="quiz" aria-labelledby="quiz-heading">
-        <h2 id="quiz-heading">Project Match Quiz</h2>
-        <p class="section-copy">Choose one option for each question and submit to see a dynamic recommendation.</p>
-
-        <form id="quiz-form" class="quiz-form">
-          <fieldset>
-            <legend>1) What's your primary project goal?</legend>
-            <label><input type="radio" name="goal" value="lead-generation" required /> Generate leads</label>
-            <label><input type="radio" name="goal" value="brand-awareness" /> Grow brand awareness</label>
-            <label><input type="radio" name="goal" value="online-sales" /> Increase online sales</label>
-          </fieldset>
-
-          <fieldset>
-            <legend>2) How quickly do you need to launch?</legend>
-            <label><input type="radio" name="timeline" value="fast" required /> As soon as possible</label>
-            <label><input type="radio" name="timeline" value="standard" /> Within 1-2 months</label>
-            <label><input type="radio" name="timeline" value="flexible" /> I have a flexible timeline</label>
-          </fieldset>
-
-          <fieldset>
-            <legend>3) Which style matches your vision?</legend>
-            <label><input type="radio" name="style" value="minimal" required /> Clean & minimal</label>
-            <label><input type="radio" name="style" value="bold" /> Bold & expressive</label>
-            <label><input type="radio" name="style" value="editorial" /> Elegant editorial</label>
-          </fieldset>
-
-          <button type="submit" class="cta-button">Get Recommendation</button>
+        <form id="search-form" class="search-form">
+          <label for="pokemon-input">Pokémon Name</label>
+          <input id="pokemon-input" name="pokemon" type="text" placeholder="e.g., pikachu" required />
+          <button type="submit">Search</button>
         </form>
 
-        <article class="result" id="quiz-result" aria-live="polite">
-          <h3>Your recommendation appears here.</h3>
-          <p>Submit your answers to generate a custom package suggestion.</p>
+        <div class="button-row">
+          <button id="refresh-button" type="button">Load Random Set</button>
+          <button id="clear-cache-button" type="button">Clear Cache</button>
+        </div>
+
+        <p id="status" class="status" aria-live="polite">Loading live data…</p>
+      </section>
+
+      <section aria-labelledby="featured-heading" class="featured-section">
+        <h2 id="featured-heading">Featured Pokémon</h2>
+        <article id="featured-card" class="featured-card" aria-live="polite">
+          <p>Pick a Pokémon card to see details.</p>
         </article>
       </section>
 
-      <section class="container gallery-section" id="gallery" aria-labelledby="gallery-heading">
-        <h2 id="gallery-heading">Concept Gallery</h2>
-        <p class="section-copy">Hover to explore each concept and click a card to make it the featured style.</p>
-
-        <p class="selected-note" id="selected-note">Featured concept: Aurora Commerce</p>
-
-        <div class="gallery-grid" id="gallery-grid">
-          <button class="gallery-card is-selected" type="button" data-title="Aurora Commerce" data-desc="A conversion-focused storefront with strong CTAs and product storytelling.">
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80" alt="E-commerce analytics dashboard" />
-            <span>Aurora Commerce</span>
-          </button>
-
-          <button class="gallery-card" type="button" data-title="Nimbus Portfolio" data-desc="A visual-first portfolio experience designed to spotlight brand work and case studies.">
-            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80" alt="Laptop displaying code editor" />
-            <span>Nimbus Portfolio</span>
-          </button>
-
-          <button class="gallery-card" type="button" data-title="Pulse Launch" data-desc="A campaign microsite optimized for signups, announcements, and countdowns.">
-            <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=900&q=80" alt="Team collaborating around a design table" />
-            <span>Pulse Launch</span>
-          </button>
-        </div>
+      <section aria-labelledby="grid-heading" class="grid-section">
+        <h2 id="grid-heading">Live Pokémon Feed</h2>
+        <div id="pokemon-grid" class="pokemon-grid"></div>
       </section>
     </main>
 
-    <footer class="site-footer" id="contact">
+    <footer class="site-footer">
       <div class="container footer-content">
-        <p>hello@lumastudio.com</p>
-        <p>&copy; 2026 Luma Studio. All rights reserved.</p>
+        <p>Data source: <a href="https://pokeapi.co/" target="_blank" rel="noreferrer noopener">PokeAPI</a></p>
+        <p>&copy; 2026 PokeLive Dashboard</p>
       </div>
     </footer>
 
