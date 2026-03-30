@@ -1,68 +1,188 @@
-const quizForm = document.querySelector("#quiz-form");
-const resultCard = document.querySelector("#quiz-result");
-const galleryGrid = document.querySelector("#gallery-grid");
-const selectedNote = document.querySelector("#selected-note");
-const themeToggleButton = document.querySelector("#theme-toggle");
+const pokemonGrid = document.querySelector("#pokemon-grid");
+const featuredCard = document.querySelector("#featured-card");
+const statusText = document.querySelector("#status");
+const searchForm = document.querySelector("#search-form");
+const input = document.querySelector("#pokemon-input");
+const refreshButton = document.querySelector("#refresh-button");
+const clearCacheButton = document.querySelector("#clear-cache-button");
 
-function buildRecommendation(goal, timeline, style) {
-  const packageMap = {
-    "lead-generation": "Growth Sprint",
-    "brand-awareness": "Brand Spotlight",
-    "online-sales": "Commerce Launch",
+const CACHE_KEY = "pokelive-cache-v1";
+const CACHE_TTL_MS = 1000 * 60 * 10;
+
+function setStatus(message, isError = false) {
+  statusText.textContent = message;
+  statusText.style.color = isError ? "#b91c1c" : "#4b5563";
+}
+
+function getCachedFeed() {
+  try {
+    const rawCache = localStorage.getItem(CACHE_KEY);
+    if (!rawCache) return null;
+
+    const parsed = JSON.parse(rawCache);
+    if (Date.now() - parsed.timestamp > CACHE_TTL_MS) {
+      localStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+
+    return parsed.data;
+  } catch {
+    return null;
+  }
+}
+
+function setCachedFeed(data) {
+  const payload = {
+    timestamp: Date.now(),
+    data,
   };
+  localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
+}
 
-  const timelineMap = {
-    fast: "with a fast-turnaround roadmap and weekly checkpoints",
-    standard: "with a structured 6-week delivery plan",
-    flexible: "with an iterative discovery-first process",
-  };
+function createPokemonCard(pokemon) {
+  const card = document.createElement("article");
+  card.className = "pokemon-card";
+  card.tabIndex = 0;
 
-  const styleMap = {
-    minimal: "clean layouts and focused messaging",
-    bold: "high-contrast visuals and energetic animations",
-    editorial: "refined typography and story-driven sections",
-  };
+  card.innerHTML = `
+    <img src="${pokemon.sprite}" alt="${pokemon.name}" />
+    <h3>${pokemon.name}</h3>
+    <p>#${pokemon.id}</p>
+    <div class="chips">
+      ${pokemon.types.map((type) => `<span class="chip">${type}</span>`).join("")}
+    </div>
+  `;
 
+  function selectCard() {
+    featuredCard.innerHTML = `
+      <h3>${pokemon.name} (#${pokemon.id})</h3>
+      <p><strong>Height:</strong> ${pokemon.height}m</p>
+      <p><strong>Weight:</strong> ${pokemon.weight}kg</p>
+      <p><strong>Base experience:</strong> ${pokemon.baseExperience}</p>
+      <p><strong>Types:</strong> ${pokemon.types.join(", ")}</p>
+    `;
+  }
+
+  card.addEventListener("click", selectCard);
+  card.addEventListener("keypress", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      selectCard();
+    }
+  });
+
+  return card;
+}
+
+function renderGrid(pokemonList) {
+  pokemonGrid.innerHTML = "";
+  const fragment = document.createDocumentFragment();
+
+  pokemonList.forEach((pokemon) => {
+    fragment.appendChild(createPokemonCard(pokemon));
+  });
+
+  pokemonGrid.appendChild(fragment);
+}
+
+async function fetchPokemonByName(name) {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`);
+
+  if (!response.ok) {
+    throw new Error("Pokémon not found. Try another name.");
+  }
+
+  const data = await response.json();
+  return mapPokemon(data);
+}
+
+function mapPokemon(data) {
   return {
-    title: packageMap[goal],
-    body: `We recommend the ${packageMap[goal]} package ${timelineMap[timeline]}, designed around ${styleMap[style]}.`,
+    id: data.id,
+    name: data.name,
+    sprite: data.sprites.front_default,
+    height: data.height / 10,
+    weight: data.weight / 10,
+    baseExperience: data.base_experience,
+    types: data.types.map((item) => item.type.name),
   };
 }
 
-quizForm.addEventListener("submit", (event) => {
-  event.preventDefault();
+async function fetchRandomFeed(limit = 12) {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=0`);
 
-  const formData = new FormData(quizForm);
-  const goal = formData.get("goal");
-  const timeline = formData.get("timeline");
-  const style = formData.get("style");
+  if (!response.ok) {
+    throw new Error("Could not load Pokémon feed.");
+  }
 
-  const recommendation = buildRecommendation(goal, timeline, style);
+  const data = await response.json();
+  const randomized = [...data.results].sort(() => Math.random() - 0.5).slice(0, limit);
 
-  resultCard.innerHTML = `
-    <h3>Your best-fit package: ${recommendation.title}</h3>
-    <p>${recommendation.body}</p>
-  `;
-});
+  const details = await Promise.all(
+    randomized.map(async (pokemon) => {
+      const detailResponse = await fetch(pokemon.url);
+      if (!detailResponse.ok) {
+        throw new Error("Failed to load one or more Pokémon.");
+      }
+      const detailData = await detailResponse.json();
+      return mapPokemon(detailData);
+    })
+  );
 
-galleryGrid.addEventListener("click", (event) => {
-  const selectedCard = event.target.closest(".gallery-card");
+  return details;
+}
 
-  if (!selectedCard) {
+async function loadInitialData() {
+  const cached = getCachedFeed();
+
+  if (cached) {
+    renderGrid(cached);
+    setStatus("Loaded cached data from this device.");
     return;
   }
 
-  const cards = galleryGrid.querySelectorAll(".gallery-card");
-  cards.forEach((card) => card.classList.remove("is-selected"));
-  selectedCard.classList.add("is-selected");
+  try {
+    setStatus("Loading live data from PokeAPI...");
+    const feed = await fetchRandomFeed();
+    renderGrid(feed);
+    setCachedFeed(feed);
+    setStatus("Loaded live Pokémon feed.");
+  } catch (error) {
+    setStatus(error.message, true);
+  }
+}
 
-  const selectedTitle = selectedCard.dataset.title;
-  const selectedDesc = selectedCard.dataset.desc;
-  selectedNote.textContent = `Featured concept: ${selectedTitle} — ${selectedDesc}`;
+searchForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const query = input.value.trim();
+
+  if (!query) return;
+
+  try {
+    setStatus(`Searching for ${query}...`);
+    const pokemon = await fetchPokemonByName(query);
+    renderGrid([pokemon]);
+    setStatus(`Showing result for ${pokemon.name}.`);
+  } catch (error) {
+    setStatus(error.message, true);
+  }
 });
 
-themeToggleButton.addEventListener("click", () => {
-  const darkModeEnabled = document.body.classList.toggle("dark-mode");
-  themeToggleButton.setAttribute("aria-pressed", String(darkModeEnabled));
-  themeToggleButton.textContent = darkModeEnabled ? "Switch to Light Mode" : "Toggle Dark Mode";
+refreshButton.addEventListener("click", async () => {
+  try {
+    setStatus("Refreshing live feed...");
+    const feed = await fetchRandomFeed();
+    renderGrid(feed);
+    setCachedFeed(feed);
+    setStatus("Live feed refreshed.");
+  } catch (error) {
+    setStatus(error.message, true);
+  }
 });
+
+clearCacheButton.addEventListener("click", () => {
+  localStorage.removeItem(CACHE_KEY);
+  setStatus("Local cache cleared.");
+});
+
+loadInitialData();
