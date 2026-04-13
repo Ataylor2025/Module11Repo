@@ -21,3 +21,34 @@ python3 -m http.server 8000
 ```
 
 Then visit `http://localhost:8000`.
+
+## Pull request troubleshooting
+
+If GitHub is blocking PR creation and mentions binary changes, check the following:
+
+1. Ensure you actually have committed changes on your feature branch:
+   ```bash
+   git checkout work
+   git status
+   git add .
+   git commit -m "Describe your change"
+   ```
+2. Confirm your branch differs from the target branch:
+   ```bash
+   git fetch origin
+   git log --oneline origin/main..HEAD
+   ```
+   - If this returns nothing, there is nothing to open a PR for yet.
+3. Identify unexpected binary files in your commit:
+   ```bash
+   git diff --numstat --cached
+   ```
+   - Binary files show `-` instead of line counts.
+4. If a binary file was accidentally added, unstage/remove it and recommit:
+   ```bash
+   git restore --staged <file>
+   git rm --cached <file>
+   git commit --amend
+   ```
+
+This repo is expected to contain text source files (`.html`, `.css`, `.js`, `.py`, `.md`), so unexpected binaries should usually be removed before opening a PR.
