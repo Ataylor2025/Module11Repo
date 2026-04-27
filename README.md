@@ -1,54 +1,41 @@
-# Module11Repo
+# Portfolio Website (Module 11)
 
-PokeLive Dashboard is a dynamic web app that uses the **Fetch API** to retrieve and render live JSON data from **PokeAPI**.
+This repository contains a responsive portfolio website focused on clean visual hierarchy, accessibility, and professional presentation.
 
-## Features
+## UI/UX Improvements Applied
 
-- Semantic HTML structure with dedicated sections for controls, featured details, and live cards
-- Fetch API integration for:
-  - random Pokémon feed
-  - search-by-name requests
-- Dynamic DOM updates for loading states, successful responses, and error handling
-- Optional Local Storage cache (10-minute TTL) for faster reloads
-- Responsive card-based design for desktop, tablet, and mobile
+- **Color system:** high-contrast text on light surfaces with a consistent indigo accent for primary actions.
+- **Typography:** Inter font with clear type scale for headings/body to improve readability.
+- **Spacing/layout:** consistent spacing tokens, card containers, and section rhythm for faster visual scanning.
+- **Navigation UX:** sticky header, skip link for keyboard users, and collapsible mobile menu.
+- **Responsiveness:** fluid grid that scales from 3 columns → 2 columns → 1 column depending on viewport width.
 
-## Run locally
-
-Open `index.html` directly in your browser, or run:
+## Run Locally
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then visit `http://localhost:8000`.
+Then open `http://localhost:8000`.
 
-## Pull request troubleshooting
+## Deployment (GitHub Pages)
 
-If GitHub is blocking PR creation and mentions binary changes, check the following:
+This repo includes a workflow at `.github/workflows/deploy-gh-pages.yml` that deploys the site when code is pushed to the `main` branch.
 
-1. Ensure you actually have committed changes on your feature branch:
-   ```bash
-   git checkout work
-   git status
-   git add .
-   git commit -m "Describe your change"
-   ```
-2. Confirm your branch differs from the target branch:
-   ```bash
-   git fetch origin
-   git log --oneline origin/main..HEAD
-   ```
-   - If this returns nothing, there is nothing to open a PR for yet.
-3. Identify unexpected binary files in your commit:
-   ```bash
-   git diff --numstat --cached
-   ```
-   - Binary files show `-` instead of line counts.
-4. If a binary file was accidentally added, unstage/remove it and recommit:
-   ```bash
-   git restore --staged <file>
-   git rm --cached <file>
-   git commit --amend
-   ```
+### Steps
 
-This repo is expected to contain text source files (`.html`, `.css`, `.js`, `.py`, `.md`), so unexpected binaries should usually be removed before opening a PR.
+1. Create a GitHub repository and push this project.
+2. Set your default deployment branch to `main`.
+3. In GitHub, go to **Settings → Pages** and set **Source** to **GitHub Actions**.
+4. Push updates to `main`.
+5. After the workflow finishes, your live site URL will be:
+   - `https://<your-github-username>.github.io/<your-repository-name>/`
+
+## Deliverables
+
+- **Live URL:** `https://<your-github-username>.github.io/<your-repository-name>/`
+- **GitHub Repository:** `https://github.com/<your-github-username>/<your-repository-name>`
+
+## Reflection on UI/UX Decisions
+
+I redesigned the site around a clearer information hierarchy so visitors can understand who I am, what I build, and how to contact me within a few seconds. I used a restrained color palette and consistent spacing to reduce visual noise, then emphasized primary actions with a single accent color for stronger CTA visibility. I also improved mobile usability by adding a collapsible nav and responsive project grid, while accessibility was supported with semantic landmarks, keyboard-friendly navigation, and a skip link.

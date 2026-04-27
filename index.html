@@ -3,65 +3,127 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PokeLive Dashboard | Fetch API Demo</title>
+    <title>Jordan Rivera | Portfolio</title>
     <meta
       name="description"
-      content="A responsive web app that uses the Fetch API to retrieve and display live Pokemon data from PokeAPI with optional local caching."
+      content="A modern, responsive portfolio website showcasing projects, skills, and contact details."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
     <header class="site-header">
-      <div class="container">
-        <p class="eyebrow">Fetch API + Dynamic DOM</p>
-        <h1>PokeLive Dashboard</h1>
-        <p class="intro">
-          Explore live data from <strong>PokeAPI</strong>. Search by Pokémon name or load a random live set.
-        </p>
+      <div class="container nav-shell">
+        <a href="#home" class="brand">JR</a>
+        <button id="menu-button" class="menu-button" type="button" aria-expanded="false" aria-controls="primary-nav">
+          Menu
+        </button>
+        <nav id="primary-nav" class="nav-links" aria-label="Primary navigation">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="#contact">Contact</a>
+        </nav>
       </div>
     </header>
 
-    <main class="container">
-      <section class="controls" aria-labelledby="controls-heading">
-        <h2 id="controls-heading">Find Pokémon</h2>
-
-        <form id="search-form" class="search-form">
-          <label for="pokemon-input">Pokémon Name</label>
-          <input id="pokemon-input" name="pokemon" type="text" placeholder="e.g., pikachu" required />
-          <button type="submit">Search</button>
-        </form>
-
-        <div class="button-row">
-          <button id="refresh-button" type="button">Load Random Set</button>
-          <button id="clear-cache-button" type="button">Clear Cache</button>
+    <main id="main-content">
+      <section id="home" class="hero">
+        <div class="container hero-layout">
+          <div>
+            <p class="eyebrow">Frontend Developer • UI/UX Focused</p>
+            <h1>Hi, I'm Jordan Rivera. I design and build polished web experiences.</h1>
+            <p class="hero-copy">
+              I create responsive, accessible websites with clear visual hierarchy, clean code, and thoughtful
+              interactions that help users reach their goals quickly.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#projects">View Projects</a>
+              <a class="btn btn-secondary" href="#contact">Get In Touch</a>
+            </div>
+          </div>
+          <aside class="hero-card" aria-label="Quick profile details">
+            <h2>Quick Facts</h2>
+            <ul>
+              <li>📍 Based in the United States</li>
+              <li>🎯 Focus: UX-driven frontend</li>
+              <li>⚡ Stack: HTML, CSS, JavaScript</li>
+              <li>🤝 Open to internships & junior roles</li>
+            </ul>
+          </aside>
         </div>
-
-        <p id="status" class="status" aria-live="polite">Loading live data…</p>
       </section>
 
-      <section aria-labelledby="featured-heading" class="featured-section">
-        <h2 id="featured-heading">Featured Pokémon</h2>
-        <article id="featured-card" class="featured-card" aria-live="polite">
-          <p>Pick a Pokémon card to see details.</p>
-        </article>
+      <section id="about" class="section">
+        <div class="container content-card">
+          <h2>About Me</h2>
+          <p>
+            I'm a web developer who enjoys solving real user problems through thoughtful interfaces. I prioritize
+            readability, consistency, and usability from first wireframe to final deployment.
+          </p>
+        </div>
       </section>
 
-      <section aria-labelledby="grid-heading" class="grid-section">
-        <h2 id="grid-heading">Live Pokémon Feed</h2>
-        <div id="pokemon-grid" class="pokemon-grid"></div>
+      <section id="projects" class="section alt-bg">
+        <div class="container">
+          <h2>Featured Projects</h2>
+          <div class="project-grid">
+            <article class="project-card">
+              <h3>PokeLive Dashboard</h3>
+              <p>Fetch API app that loads live Pokémon data with search, caching, and dynamic card rendering.</p>
+              <a href="#" aria-label="Open PokeLive project">View Project</a>
+            </article>
+            <article class="project-card">
+              <h3>TaskFlow Planner</h3>
+              <p>To-do planning interface with priority chips, keyboard support, and responsive task columns.</p>
+              <a href="#" aria-label="Open TaskFlow project">View Project</a>
+            </article>
+            <article class="project-card">
+              <h3>Campus Events Hub</h3>
+              <p>Event listing page optimized for quick scanning with clear CTAs and category filtering.</p>
+              <a href="#" aria-label="Open Campus Events project">View Project</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" class="section">
+        <div class="container">
+          <h2>Skills</h2>
+          <div class="chips" role="list" aria-label="Skills list">
+            <span class="chip" role="listitem">Semantic HTML</span>
+            <span class="chip" role="listitem">Responsive CSS</span>
+            <span class="chip" role="listitem">JavaScript (ES6+)</span>
+            <span class="chip" role="listitem">Accessibility (WCAG Basics)</span>
+            <span class="chip" role="listitem">Git & GitHub</span>
+            <span class="chip" role="listitem">Figma-to-Code</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section alt-bg">
+        <div class="container content-card">
+          <h2>Contact</h2>
+          <p>Want to collaborate or discuss opportunities? Let's connect.</p>
+          <p>
+            Email: <a href="mailto:jordan.rivera.dev@example.com">jordan.rivera.dev@example.com</a><br />
+            LinkedIn: <a href="https://www.linkedin.com" target="_blank" rel="noreferrer noopener">linkedin.com/in/jordan-rivera</a>
+          </p>
+        </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-content">
-        <p>Data source: <a href="https://pokeapi.co/" target="_blank" rel="noreferrer noopener">PokeAPI</a></p>
-        <p>&copy; 2026 PokeLive Dashboard</p>
+      <div class="container footer-shell">
+        <p>© <span id="year"></span> Jordan Rivera</p>
+        <a href="#home">Back to top ↑</a>
       </div>
     </footer>
 
