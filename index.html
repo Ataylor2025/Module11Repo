@@ -3,127 +3,58 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jordan Rivera | Portfolio</title>
+    <title>StudySprint AI | Smart Study Planner</title>
     <meta
       name="description"
-      content="A modern, responsive portfolio website showcasing projects, skills, and contact details."
+      content="A responsive study planner with task management, API-powered inspiration, and interactive focus timer."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#4f46e5" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
-
     <header class="site-header">
-      <div class="container nav-shell">
-        <a href="#home" class="brand">JR</a>
-        <button id="menu-button" class="menu-button" type="button" aria-expanded="false" aria-controls="primary-nav">
-          Menu
-        </button>
-        <nav id="primary-nav" class="nav-links" aria-label="Primary navigation">
-          <a href="#about">About</a>
-          <a href="#projects">Projects</a>
-          <a href="#skills">Skills</a>
-          <a href="#contact">Contact</a>
-        </nav>
+      <div class="container">
+        <h1>StudySprint AI</h1>
+        <p>Plan smarter. Focus deeper. Learn consistently.</p>
       </div>
     </header>
 
-    <main id="main-content">
-      <section id="home" class="hero">
-        <div class="container hero-layout">
-          <div>
-            <p class="eyebrow">Frontend Developer • UI/UX Focused</p>
-            <h1>Hi, I'm Jordan Rivera. I design and build polished web experiences.</h1>
-            <p class="hero-copy">
-              I create responsive, accessible websites with clear visual hierarchy, clean code, and thoughtful
-              interactions that help users reach their goals quickly.
-            </p>
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="#projects">View Projects</a>
-              <a class="btn btn-secondary" href="#contact">Get In Touch</a>
-            </div>
-          </div>
-          <aside class="hero-card" aria-label="Quick profile details">
-            <h2>Quick Facts</h2>
-            <ul>
-              <li>📍 Based in the United States</li>
-              <li>🎯 Focus: UX-driven frontend</li>
-              <li>⚡ Stack: HTML, CSS, JavaScript</li>
-              <li>🤝 Open to internships & junior roles</li>
-            </ul>
-          </aside>
+    <main class="container app-grid">
+      <section class="card" aria-labelledby="task-title">
+        <h2 id="task-title">Study Tasks</h2>
+        <form id="task-form" class="row">
+          <input id="task-input" type="text" placeholder="Add a study task..." required />
+          <select id="priority-input" aria-label="Task priority">
+            <option value="High">High</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Low">Low</option>
+          </select>
+          <button type="submit">Add</button>
+        </form>
+        <ul id="task-list" class="task-list" aria-live="polite"></ul>
+      </section>
+
+      <section class="card" aria-labelledby="timer-title">
+        <h2 id="timer-title">Pomodoro Focus Timer</h2>
+        <p class="timer" id="timer-display">25:00</p>
+        <div class="row">
+          <button id="start-timer" type="button">Start</button>
+          <button id="pause-timer" type="button">Pause</button>
+          <button id="reset-timer" type="button">Reset</button>
         </div>
       </section>
 
-      <section id="about" class="section">
-        <div class="container content-card">
-          <h2>About Me</h2>
-          <p>
-            I'm a web developer who enjoys solving real user problems through thoughtful interfaces. I prioritize
-            readability, consistency, and usability from first wireframe to final deployment.
-          </p>
-        </div>
-      </section>
-
-      <section id="projects" class="section alt-bg">
-        <div class="container">
-          <h2>Featured Projects</h2>
-          <div class="project-grid">
-            <article class="project-card">
-              <h3>PokeLive Dashboard</h3>
-              <p>Fetch API app that loads live Pokémon data with search, caching, and dynamic card rendering.</p>
-              <a href="#" aria-label="Open PokeLive project">View Project</a>
-            </article>
-            <article class="project-card">
-              <h3>TaskFlow Planner</h3>
-              <p>To-do planning interface with priority chips, keyboard support, and responsive task columns.</p>
-              <a href="#" aria-label="Open TaskFlow project">View Project</a>
-            </article>
-            <article class="project-card">
-              <h3>Campus Events Hub</h3>
-              <p>Event listing page optimized for quick scanning with clear CTAs and category filtering.</p>
-              <a href="#" aria-label="Open Campus Events project">View Project</a>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="skills" class="section">
-        <div class="container">
-          <h2>Skills</h2>
-          <div class="chips" role="list" aria-label="Skills list">
-            <span class="chip" role="listitem">Semantic HTML</span>
-            <span class="chip" role="listitem">Responsive CSS</span>
-            <span class="chip" role="listitem">JavaScript (ES6+)</span>
-            <span class="chip" role="listitem">Accessibility (WCAG Basics)</span>
-            <span class="chip" role="listitem">Git & GitHub</span>
-            <span class="chip" role="listitem">Figma-to-Code</span>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" class="section alt-bg">
-        <div class="container content-card">
-          <h2>Contact</h2>
-          <p>Want to collaborate or discuss opportunities? Let's connect.</p>
-          <p>
-            Email: <a href="mailto:jordan.rivera.dev@example.com">jordan.rivera.dev@example.com</a><br />
-            LinkedIn: <a href="https://www.linkedin.com" target="_blank" rel="noreferrer noopener">linkedin.com/in/jordan-rivera</a>
-          </p>
-        </div>
+      <section class="card" aria-labelledby="insight-title">
+        <h2 id="insight-title">API Learning Insight</h2>
+        <p id="quote">Click below to load a motivation quote from an external API.</p>
+        <button id="new-quote" type="button">Get New Quote</button>
       </section>
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-shell">
-        <p>© <span id="year"></span> Jordan Rivera</p>
-        <a href="#home">Back to top ↑</a>
+      <div class="container">
+        <p>Built with modern JavaScript, responsive UI patterns, and API integration.</p>
       </div>
     </footer>
 

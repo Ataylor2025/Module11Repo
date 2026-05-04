@@ -1,0 +1,10 @@
+{
+  "name": "StudySprint AI",
+  "short_name": "StudySprint",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#4f46e5",
+  "description": "Responsive study planner with API integration and interactive focus timer.",
+  "icons": []
+}
